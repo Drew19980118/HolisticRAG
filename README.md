@@ -31,3 +31,43 @@ We first extract fine‑grained atomic facts from each document in the benchmark
 ```sh
 python fact_extraction.py --benchmark hotpotqa --model Qwen/Qwen2.5-32B-Instruct
 ```
+
+### 2. Graph-grounded Questions Construction
+
+Each atomic fact is converted into a question‑answer (QA) pair by leveraging the extracted knowledge graph. This step aligns facts with possible user queries.
+
+```sh
+python questions_construction.py --benchmark hotpotqa --embedding-model nvidia/NV-Embed-v2 --model Qwen/Qwen2.5-32B-Instruct
+```
+
+### 3. Chunk Memory
+
+All constructed QA pairs are indexed into a dense vector store (Chunk Memory) to support efficient online retrieval.
+
+```sh
+python chunk_memory.py --benchmark hotpotqa --embedding-model nvidia/NV-Embed-v2
+```
+
+## Online Stage
+
+Given a user query, the online stage retrieves holistic knowledge by iteratively clustering and fetching complementary evidence.
+
+## 1. Seed Query Memory
+
+The query is first transformed into a seed QA pair that serves as the initial retrieval anchor.
+
+```sh
+python seed_query_memory.py --benchmark hotpotqa --embedding-model nvidia/NV-Embed-v2
+```
+
+## 2. Inference (Holistic Iterative Retrieval)
+
+The main inference loop performs holistic knowledge clustering and adaptive retrieval. It repeats until no new complementary facts are found or a maximum iteration count is reached.
+
+```sh
+python HolisticRAG.py --benchmark hotpotqa --embedding-model nvidia/NV-Embed-v2 --model Qwen/Qwen2.5-32B-Instruct --max-iter 5 --repeat-sim-threshold 0.9
+```
+- `--max-iter`: maximum number of iterative retrieval rounds.
+- `--repeat-sim-threshold`: cosine similarity threshold to filter duplicate or overly similar retrieved facts.
+
+The final answer is generated based on the aggregated holistic knowledge.
