@@ -12,7 +12,20 @@ Retrieval-Augmented Generation (RAG) enables Large Language Models (LLMs) to acc
 
 ## Installation
 
+We recommend using Conda to manage the environment. All experiments are conducted with Python 3.10.
+
 ```sh
 conda create -n HolisticRAG python=3.10
 conda activate HolisticRAG
 pip install -r requirements.txt
+
+## Offline Stage
+
+The offline stage constructs a knowledge representation that preserves semantic associations while reducing query‑agnostic retrieval. It consists of three sequential steps.
+
+### 1. Fine-grained Fact Extraction
+
+We first extract fine‑grained atomic facts from each document in the benchmark. Each fact is a short, self‑contained textual statement.
+
+```sh
+python fact_extraction.py --benchmark hotpotqa --model Qwen/Qwen2.5-32B-Instruct
