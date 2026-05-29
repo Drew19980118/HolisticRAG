@@ -42,7 +42,7 @@ vllm serve Qwen/Qwen2.5-32B-Instruct \
 - Adjust `--tensor-parallel-size` (number of GPUs) and `--gpu-memory-utilization` according to your hardware.
 - Once the server is running, the scripts will automatically connect to `http://localhost:8000/v1`.
 
-For closed-source models, ensure your OpenAI API key is set as the environment variable `OPENAI_API_KEY`. If you are using Azure OpenAI, also set the endpoint:
+For closed-source models, ensure your OpenAI API key and endpoint are set as the environment variable `OPENAI_API_KEY` and `AZURE_OPENAI_ENDPOINT`.
 
 ```bash
 export OPENAI_API_KEY="your-api-key"
