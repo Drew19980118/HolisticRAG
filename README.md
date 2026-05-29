@@ -31,6 +31,8 @@ We first extract fine‑grained atomic facts from each document in the benchmark
 ```sh
 python fact_extraction.py --benchmark hotpotqa --model Qwen/Qwen2.5-32B-Instruct
 ```
+- `--benchmark`: choose from `hotpotqa`, `2wikimultihopqa`, `musique`, etc.
+- `--model`: any HuggingFace‑compatible LLM (e.g., Qwen, Llama, GPT‑4).
 
 ### 2. Graph-grounded Questions Construction
 
@@ -39,6 +41,8 @@ Each atomic fact is converted into a question‑answer (QA) pair by leveraging t
 ```sh
 python questions_construction.py --benchmark hotpotqa --embedding-model nvidia/NV-Embed-v2 --model Qwen/Qwen2.5-32B-Instruct
 ```
+- `--embedding-model`: dense retriever for neighbor search (e.g., `nvidia/NV-Embed-v2`).
+- `--model`: generator for constructing natural questions.
 
 ### 3. Chunk Memory
 
@@ -47,6 +51,7 @@ All constructed QA pairs are indexed into a dense vector store (Chunk Memory) to
 ```sh
 python chunk_memory.py --benchmark hotpotqa --embedding-model nvidia/NV-Embed-v2
 ```
+This script builds an embedding index for all QA pairs and saves it for later use.
 
 ## Online Stage
 
@@ -59,6 +64,7 @@ The query is first transformed into a seed QA pair that serves as the initial re
 ```sh
 python seed_query_memory.py --benchmark hotpotqa --embedding-model nvidia/NV-Embed-v2
 ```
+This script encodes the query, retrieves the most relevant seed QA pair from the Chunk Memory, and initializes the working set.
 
 ### 2. Inference (Holistic Iterative Retrieval)
 
@@ -71,3 +77,11 @@ python HolisticRAG.py --benchmark hotpotqa --embedding-model nvidia/NV-Embed-v2 
 - `--repeat-sim-threshold`: cosine similarity threshold to filter duplicate or overly similar retrieved facts.
 
 The final answer is generated based on the aggregated holistic knowledge.
+
+## Evaluation
+
+To reproduce the main experimental results, run:
+
+```sh
+python evaluation.py --benchmark hotpotqa
+```
