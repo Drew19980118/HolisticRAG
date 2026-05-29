@@ -20,7 +20,7 @@ conda activate HolisticRAG
 pip install -r requirements.txt
 ```
 
-The required benchmarks can be downloaded from [Link](https://1024terabox.com/s/1vrngCXv7I76rYL3JngwoHA). Place all downloaded data under the `data/` folder in the project root.
+The required benchmarks can be downloaded from [Link](https://1024terabox.com/s/1HZXDzlLqojtdhmgWejs0hw). Place all downloaded data under the `data/` folder in the project root.
 
 ## LLM Backbones
 
