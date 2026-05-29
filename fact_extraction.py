@@ -4,7 +4,6 @@ import json
 import re
 import argparse
 from typing import List, Dict, Any
-from collections import defaultdict
 from prompts.NER import NER_SYSTEM, NER_ONE_SHOT_PARAGRAPH, NER_ONE_SHOT_OUTPUT
 from prompts.relation_extraction import (
     RELATION_SYSTEM,

@@ -2,9 +2,9 @@ import requests
 import time
 import json
 import re
+import os
 import argparse
 from typing import List, Dict, Any
-from collections import defaultdict
 from prompts.NER import NER_SYSTEM, NER_ONE_SHOT_PARAGRAPH, NER_ONE_SHOT_OUTPUT
 from prompts.relation_extraction import (
     RELATION_SYSTEM,
@@ -14,6 +14,14 @@ from prompts.relation_extraction import (
 )
 from prompts.sub_rel_matching import SUBJECT_RELATION_SYSTEM, SUBJECT_RELATION_USER_TEMPLATE
 from prompts.triple_completion import OBJECT_COMPLETION_SYSTEM, OBJECT_COMPLETION_USER_TEMPLATE
+
+# ================== LLM call ==================
+API_KEY = os.environ.get("OPENAI_API_KEY")
+ENDPOINT = os.environ.get("AZURE_OPENAI_ENDPOINT")
+headers = {
+    "Content-Type": "application/json",
+    "api-key": API_KEY,
+}
 
 def query_gpt4o(messages: List[Dict[str, str]], max_retries: int = 3) -> Optional[str]:
     """

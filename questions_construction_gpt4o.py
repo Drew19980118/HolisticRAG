@@ -22,8 +22,8 @@ def format_triple_from_dict(triple_dict: Dict[str, Any]) -> str:
     return f"({subj}, {rel}, {obj})"
 
 # ---------- Configuration (Please fill in your Azure OpenAI credentials) ----------
-API_KEY = '[Your API Key]'
-ENDPOINT = "[Your API Endpoint]"
+API_KEY = os.environ.get("OPENAI_API_KEY")
+ENDPOINT = os.environ.get("AZURE_OPENAI_ENDPOINT")
 headers = {
     "Content-Type": "application/json",
     "api-key": API_KEY,

@@ -256,8 +256,8 @@ def llm_filter_questions(seed_query: str, candidate_questions: List[str]) -> Lis
 
 
 # ================== LLM call ==================
-API_KEY = '[Your API Key]'
-ENDPOINT = "[Your API Endpoint]"
+API_KEY = os.environ.get("OPENAI_API_KEY")
+ENDPOINT = os.environ.get("AZURE_OPENAI_ENDPOINT")
 headers = {
     "Content-Type": "application/json",
     "api-key": API_KEY,

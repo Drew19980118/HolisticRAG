@@ -9,8 +9,8 @@ from prompts.seed_query_extraction import SEED_QUERY_PROMPT_TEMPLATE
 from embedding_model import get_embedding_model
 
 # ---------- Configuration (Please fill in your Azure OpenAI credentials) ----------
-API_KEY = '[Your API Key]'
-ENDPOINT = "[Your API Endpoint]"
+API_KEY = os.environ.get("OPENAI_API_KEY")
+ENDPOINT = os.environ.get("AZURE_OPENAI_ENDPOINT")
 headers = {
     "Content-Type": "application/json",
     "api-key": API_KEY,
