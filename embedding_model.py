@@ -152,7 +152,6 @@ def get_embedding_model(model_name: str, device: str = "cuda:0", **kwargs) -> Ba
     Create an embedding model instance based on the model name.
     Supports:
         - NV-Embed-v2 (contains 'NV-Embed' or uses .encode)
-        - LLM2Vec (contains 'LLM2Vec')
         - E5-mistral (contains 'e5-mistral')
     """
     name_lower = model_name.lower()

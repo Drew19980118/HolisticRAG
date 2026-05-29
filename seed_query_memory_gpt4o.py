@@ -169,7 +169,7 @@ def compute_embeddings(seed_json_path: str, benchmark: str, embedding_model_name
         raise ValueError("No valid seed queries found")
 
     # Initialize embedding model using decoupled class
-    embed_model = get_embedding_model(embedding_model_name=embedding_model_name, device=device)
+    embed_model = get_embedding_model(model_name=embedding_model_name, device=device)
 
     print("Computing embeddings for seed queries...")
     seed_embeddings = embed_model.batch_encode(all_seed_queries)
