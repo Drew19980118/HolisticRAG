@@ -61,12 +61,11 @@ Given a user query, the online stage retrieves holistic knowledge by iteratively
 
 ### 1. Seed Query Memory
 
-The query is first transformed into a seed QA pair that serves as the initial retrieval anchor.
+The query is first transformed into a seed query that serves as the initial retrieval anchor.
 
 ```sh
 python seed_query_memory.py --benchmark hotpotqa --embedding-model nvidia/NV-Embed-v2
 ```
-This script encodes the query, retrieves the most relevant seed QA pair from the Chunk Memory, and initializes the working set.
 
 ### 2. Inference (Holistic Iterative Retrieval)
 
