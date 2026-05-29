@@ -22,6 +22,26 @@ pip install -r requirements.txt
 
 The required benchmarks can be downloaded from [Google Drive Link](https://drive.google.com/drive/folders/1DsIoGW51hfCDmo75dGUUVk6EOMV-HIh2?usp=drive_link). Place all downloaded data under the `data/` folder in the project root.
 
+## LLM Backbones
+
+Our framework supports both open-source and closed-source LLMs:
+
+- **Open-source**: `Qwen/Qwen2.5-32B-Instruct`, `meta-llama/Llama-3.3-70B-Instruct`
+- **Closed-source**: `GPT-4o` (via OpenAI API)
+
+For open-source models, we use [vLLM](https://github.com/vllm-project/vllm) for efficient inference. Before running any script that uses an open-source model, start the vLLM server:
+
+```sh
+vllm serve Qwen/Qwen2.5-32B-Instruct \
+    --tensor-parallel-size 2 \
+    --max-model-len 4096 \
+    --gpu-memory-utilization 0.47 \
+    --enforce-eager \
+    --port 8000
+```
+
+For closed-source models, ensure your OpenAI API key is set as the environment variable `OPENAI_API_KEY`
+
 ## Offline Stage
 
 The offline stage constructs a knowledge representation that preserves semantic associations while reducing query‑agnostic retrieval. It consists of three sequential steps.
