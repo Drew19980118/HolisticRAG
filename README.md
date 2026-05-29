@@ -27,7 +27,7 @@ The required benchmarks can be downloaded from [Google Drive Link](https://drive
 Our framework supports both open-source and closed-source LLMs:
 
 - **Open-source**: `Qwen/Qwen2.5-32B-Instruct`, `meta-llama/Llama-3.3-70B-Instruct`
-- **Closed-source**: `GPT-4o` (via OpenAI API)
+- **Closed-source**: `GPT-4o` (via Azure OpenAI API)
 
 For open-source models, we use [vLLM](https://github.com/vllm-project/vllm) for efficient inference. Before running any script that uses an open-source model, start the vLLM server:
 
@@ -42,7 +42,12 @@ vllm serve Qwen/Qwen2.5-32B-Instruct \
 - Adjust `--tensor-parallel-size` (number of GPUs) and `--gpu-memory-utilization` according to your hardware.
 - Once the server is running, the scripts will automatically connect to `http://localhost:8000/v1`.
 
-For closed-source models, ensure your OpenAI API key is set as the environment variable `OPENAI_API_KEY`.
+For closed-source models, ensure your OpenAI API key is set as the environment variable `OPENAI_API_KEY`. If you are using Azure OpenAI, also set the endpoint:
+
+```bash
+export OPENAI_API_KEY="your-api-key"
+export AZURE_OPENAI_ENDPOINT="your-Azure-OpenAI-endpoint"
+```
 
 ## Offline Stage
 
