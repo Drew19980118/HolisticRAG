@@ -52,7 +52,7 @@ python chunk_memory.py --benchmark hotpotqa --embedding-model nvidia/NV-Embed-v2
 
 Given a user query, the online stage retrieves holistic knowledge by iteratively clustering and fetching complementary evidence.
 
-## 1. Seed Query Memory
+### 1. Seed Query Memory
 
 The query is first transformed into a seed QA pair that serves as the initial retrieval anchor.
 
@@ -60,7 +60,7 @@ The query is first transformed into a seed QA pair that serves as the initial re
 python seed_query_memory.py --benchmark hotpotqa --embedding-model nvidia/NV-Embed-v2
 ```
 
-## 2. Inference (Holistic Iterative Retrieval)
+### 2. Inference (Holistic Iterative Retrieval)
 
 The main inference loop performs holistic knowledge clustering and adaptive retrieval. It repeats until no new complementary facts are found or a maximum iteration count is reached.
 
