@@ -109,8 +109,8 @@ def run_query_seed_extraction(benchmark: str, model_name: str) -> str:
     Returns the path to the saved JSON file.
     """
     base_dir = "data"
-    input_file = os.path.join(base_dir, f"{benchmark}.json")
-    output_dir = os.path.join(base_dir, benchmark, "seed_queries")
+    input_file = os.path.join(base_dir, f"{benchmark}/{benchmark}.json")
+    output_dir = os.path.join(base_dir, benchmark)
     output_file = os.path.join(output_dir, f"{benchmark}_seed_queries.json")
     os.makedirs(output_dir, exist_ok=True)
 
