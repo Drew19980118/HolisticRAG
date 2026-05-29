@@ -92,7 +92,7 @@ Given a user query, the online stage retrieves holistic knowledge by iteratively
 
 ### 1. Seed Query Memory
 
-The query is first transformed into a seed query that serves as the initial retrieval anchor.
+The first atomic sub-query is extracted from the user query serving as the initial retrieval anchor.
 
 ```sh
 python seed_query_memory.py --benchmark hotpotqa --embedding-model nvidia/NV-Embed-v2 --model Qwen/Qwen2.5-32B-Instruct
