@@ -4,7 +4,7 @@
 
 ## Overview
 
-![](./assets/overview.pdf)
+![](./assets/overview.png)
 
 ## Abstract
 
