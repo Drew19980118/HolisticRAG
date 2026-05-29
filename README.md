@@ -32,7 +32,7 @@ We first extract fine‑grained atomic facts from each document in the benchmark
 python fact_extraction.py --benchmark hotpotqa --model Qwen/Qwen2.5-32B-Instruct
 ```
 - `--benchmark`: choose from `hotpotqa`, `2wikimultihopqa`, `musique`, etc.
-- `--model`: any HuggingFace‑compatible LLM (e.g., Qwen, Llama, GPT‑4).
+- `--model`: any HuggingFace‑compatible LLM (e.g., Qwen, Llama).
 
 ### 2. Graph-grounded Questions Construction
 
