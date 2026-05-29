@@ -20,7 +20,7 @@ conda activate HolisticRAG
 pip install -r requirements.txt
 ```
 
-The required datasets can be downloaded from [Google Drive Link](https://drive.google.com/drive/folders/1DsIoGW51hfCDmo75dGUUVk6EOMV-HIh2?usp=drive_link). Place all downloaded data under the `data/` folder in the project root.
+The required benchmarks can be downloaded from [Google Drive Link](https://drive.google.com/drive/folders/1DsIoGW51hfCDmo75dGUUVk6EOMV-HIh2?usp=drive_link). Place all downloaded data under the `data/` folder in the project root.
 
 ## Offline Stage
 
