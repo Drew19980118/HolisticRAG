@@ -1,0 +1,9 @@
+hdbscan==0.8.43
+numpy==2.4.6
+pandas==3.0.3
+Requests==2.34.2
+torch==2.5.1
+tqdm==4.67.3
+transformers==4.45.2
+umap_learn==0.5.12
+vllm==0.6.3.post1
