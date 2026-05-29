@@ -18,6 +18,7 @@ We recommend using Conda to manage the environment. All experiments are conducte
 conda create -n HolisticRAG python=3.10
 conda activate HolisticRAG
 pip install -r requirements.txt
+```
 
 ## Offline Stage
 
@@ -29,3 +30,4 @@ We first extract fine‑grained atomic facts from each document in the benchmark
 
 ```sh
 python fact_extraction.py --benchmark hotpotqa --model Qwen/Qwen2.5-32B-Instruct
+```
