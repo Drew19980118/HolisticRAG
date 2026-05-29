@@ -20,6 +20,8 @@ conda activate HolisticRAG
 pip install -r requirements.txt
 ```
 
+The required datasets can be downloaded from [Google Drive link](https://drive.google.com/drive/folders/1p314NhGGAX5tttvclkY6E7CmedQh1CAo?usp=drive_link). Place all downloaded data under the `data/` folder in the project root.
+
 ## Offline Stage
 
 The offline stage constructs a knowledge representation that preserves semantic associations while reducing query‑agnostic retrieval. It consists of three sequential steps.
