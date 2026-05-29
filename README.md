@@ -32,6 +32,8 @@ We first extract fine‑grained atomic facts from each document in the benchmark
 
 ```sh
 python fact_extraction.py --benchmark hotpotqa --model Qwen/Qwen2.5-32B-Instruct
+or
+python fact_extraction_gpt4o.py --benchmark hotpotqa
 ```
 - `--benchmark`: choose from `hotpotqa`, `2wikimultihopqa`, `musique`, etc.
 - `--model`: any HuggingFace‑compatible LLM (e.g., Qwen, Llama).
@@ -42,6 +44,8 @@ Each atomic fact is converted into a question‑answer (QA) pair by leveraging t
 
 ```sh
 python questions_construction.py --benchmark hotpotqa --embedding-model nvidia/NV-Embed-v2 --model Qwen/Qwen2.5-32B-Instruct
+or
+python questions_construction_gpt4o.py --benchmark hotpotqa --embedding-model nvidia/NV-Embed-v2 
 ```
 - `--embedding-model`: dense retriever for neighbor search (e.g., `nvidia/NV-Embed-v2`).
 - `--model`: generator for constructing natural questions.
@@ -64,7 +68,9 @@ Given a user query, the online stage retrieves holistic knowledge by iteratively
 The query is first transformed into a seed query that serves as the initial retrieval anchor.
 
 ```sh
-python seed_query_memory.py --benchmark hotpotqa --embedding-model nvidia/NV-Embed-v2
+python seed_query_memory.py --benchmark hotpotqa --embedding-model nvidia/NV-Embed-v2 --model Qwen/Qwen2.5-32B-Instruct
+or
+python seed_query_memory_gpt4o.py --benchmark hotpotqa --embedding-model nvidia/NV-Embed-v2 
 ```
 
 ### 2. Inference (Holistic Iterative Retrieval)
@@ -73,6 +79,8 @@ The main inference loop performs holistic knowledge clustering and adaptive retr
 
 ```sh
 python HolisticRAG.py --benchmark hotpotqa --embedding-model nvidia/NV-Embed-v2 --model Qwen/Qwen2.5-32B-Instruct --max-iter 5 --repeat-sim-threshold 0.9
+or
+python HolisticRAG_gpt4o.py --benchmark hotpotqa --embedding-model nvidia/NV-Embed-v2 --max-iter 5 --repeat-sim-threshold 0.9
 ```
 - `--max-iter`: maximum number of iterative retrieval rounds.
 - `--repeat-sim-threshold`: cosine similarity threshold to filter duplicate or overly similar retrieved facts.
