@@ -80,8 +80,6 @@ The final answer is generated based on the aggregated holistic knowledge.
 
 ## Evaluation
 
-To reproduce the main experimental results, run:
-
 ```sh
 python evaluation.py --benchmark hotpotqa
 ```
