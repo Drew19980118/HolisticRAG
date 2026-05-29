@@ -29,7 +29,7 @@ headers = {
     "api-key": API_KEY,
 }
 
-def query_gpt4o(messages: List[Dict[str, str]], model_name: str, max_retries: int = 3) -> Optional[str]:
+def query_gpt4o(messages: List[Dict[str, str]], max_retries: int = 3) -> Optional[str]:
     """
     Call the Azure OpenAI API with a list of messages (similar to OpenAI chat format).
     Supports retries. Returns the assistant's reply content or None on failure.
@@ -78,7 +78,7 @@ def generate_questions_for_triple(passage: str, triple: List[str], model_name: s
         {"role": "user", "content": user_content}
     ]
 
-    response = query_gpt4o(messages, model_name=model_name)
+    response = query_gpt4o(messages)
     if response is None:
         return {"question_subject": None, "question_object": None}
 
@@ -257,8 +257,6 @@ def main():
     )
     parser.add_argument("--benchmark", "-b", type=str, required=True,
                         help="Benchmark name, e.g., 'hotpotqa'. Expects data/{benchmark}/{benchmark}_corpus_triple.json")
-    parser.add_argument("--model", "-m", type=str, default="Qwen/Qwen2.5-32B-Instruct",
-                        help="Model name for vLLM question generation (default: Qwen/Qwen2.5-32B-Instruct).")
     parser.add_argument("--embedding-model", "-e", type=str, default="nvidia/NV-Embed-v2",
                         help="Embedding model name (default: nvidia/NV-Embed-v2). Must be supported by embedding_model.py.")
     parser.add_argument("--device", "-d", type=str, default="cuda:0",

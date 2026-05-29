@@ -62,23 +62,12 @@ def main():
     parser.add_argument("--benchmark", "-b", type=str, required=True,
                         help="Benchmark name, e.g., 'musique', 'hotpotqa'. "
                              "Will read predictions from data/{benchmark}/{benchmark}_results.jsonl "
-                             "and gold answers from data/{benchmark}/{benchmark}_gold.json")
-    parser.add_argument("--pred-file", type=str, default=None,
-                        help="Override path to predictions JSONL file (default: built from benchmark)")
-    parser.add_argument("--gold-file", type=str, default=None,
-                        help="Override path to gold answers JSON file (default: built from benchmark)")
+                             "and gold answers from data/{benchmark}/{benchmark}.json")
     args = parser.parse_args()
 
     # Build default paths
-    if args.pred_file is None:
-        pred_file = f"data/{args.benchmark}/{args.benchmark}_results.jsonl"
-    else:
-        pred_file = args.pred_file
-
-    if args.gold_file is None:
-        gold_file = f"data/{args.benchmark}/{args.benchmark}.json"
-    else:
-        gold_file = args.gold_file
+    pred_file = f"data/{args.benchmark}/{args.benchmark}_results.jsonl"
+    gold_file = f"data/{args.benchmark}/{args.benchmark}.json"
 
     print(f"Loading predictions from: {pred_file}")
     print(f"Loading gold answers from: {gold_file}")

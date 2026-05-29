@@ -16,7 +16,7 @@ headers = {
     "api-key": API_KEY,
 }
 
-def query_gpt4o(messages: List[Dict[str, str]], model_name: str, max_retries: int = 3) -> Optional[str]:
+def query_gpt4o(messages: List[Dict[str, str]], max_retries: int = 3) -> Optional[str]:
     """
     Call the Azure OpenAI API with a list of messages (similar to OpenAI chat format).
     Supports retries. Returns the assistant's reply content or None on failure.
@@ -75,7 +75,7 @@ def extract_questions(json_file_path: str) -> List[str]:
 def generate_seed_queries(query: str, model_name: str) -> List[str]:
     """Generate seed queries using the imported prompt template."""
     messages = [{"role": "user", "content": SEED_QUERY_PROMPT_TEMPLATE.format(query=query)}]
-    response = query_vllm_messages(messages, model_name=model_name)
+    response = query_gpt4o(messages)
 
     if response is None:
         return []
@@ -207,8 +207,6 @@ def main():
     )
     parser.add_argument("--benchmark", "-b", type=str, required=True,
                         help="Benchmark name (e.g., 'musique'). Expects data/{benchmark}.json as input.")
-    parser.add_argument("--model", "-m", type=str, default="Qwen/Qwen2.5-32B-Instruct",
-                        help="Model name for vLLM seed extraction (default: Qwen/Qwen2.5-32B-Instruct).")
     parser.add_argument("--embedding-model", "-e", type=str, default="nvidia/NV-Embed-v2",
                         help="Embedding model name (default: nvidia/NV-Embed-v2). Must support AutoModel and .encode().")
     parser.add_argument("--device", "-d", type=str, default="cuda:0",

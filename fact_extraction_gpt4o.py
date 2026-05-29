@@ -15,7 +15,7 @@ from prompts.relation_extraction import (
 from prompts.sub_rel_matching import SUBJECT_RELATION_SYSTEM, SUBJECT_RELATION_USER_TEMPLATE
 from prompts.triple_completion import OBJECT_COMPLETION_SYSTEM, OBJECT_COMPLETION_USER_TEMPLATE
 
-def query_gpt4o(messages: List[Dict[str, str]], model_name: str, max_retries: int = 3) -> Optional[str]:
+def query_gpt4o(messages: List[Dict[str, str]], max_retries: int = 3) -> Optional[str]:
     """
     Call the Azure OpenAI API with a list of messages (similar to OpenAI chat format).
     Supports retries. Returns the assistant's reply content or None on failure.
@@ -81,7 +81,7 @@ def process_single_paragraph(text: str, idx: int, title: str, model_name: str) -
         {"role": "assistant", "content": NER_ONE_SHOT_OUTPUT},
         {"role": "user", "content": text}
     ]
-    ner_result = query_gpt4o(ner_messages, model_name=model_name)
+    ner_result = query_gpt4o(ner_messages)
     if not ner_result:
         print(f"Paragraph {idx} NER failed, skipping")
         return []
@@ -107,7 +107,7 @@ def process_single_paragraph(text: str, idx: int, title: str, model_name: str) -
         {"role": "assistant", "content": RELATION_EXAMPLE_OUTPUT},
         {"role": "user", "content": RELATION_USER_TEMPLATE.format(passage=text, entities=entities_str)}
     ]
-    relation_result = query_gpt4o(relation_messages, model_name=model_name)
+    relation_result = query_gpt4o(relation_messages)
     if not relation_result:
         print(f"Paragraph {idx} relation extraction failed, skipping")
         return []
@@ -132,7 +132,7 @@ def process_single_paragraph(text: str, idx: int, title: str, model_name: str) -
             passage=text, entities=entities_str, relations=relations_str
         )}
     ]
-    subject_result = query_gpt4o(subject_relation_messages, model_name=model_name)
+    subject_result = query_gpt4o(subject_relation_messages)
     if not subject_result:
         print(f"Paragraph {idx} Subject-Relation mapping failed, skipping")
         return []
@@ -156,7 +156,7 @@ def process_single_paragraph(text: str, idx: int, title: str, model_name: str) -
             mapping=mapping_str
         )}
     ]
-    triples_result = query_gpt4o(object_messages, model_name=model_name)
+    triples_result = query_gpt4o(object_messages)
     if not triples_result:
         print(f"Paragraph {idx} object completion failed, skipping")
         return []
@@ -194,8 +194,6 @@ def main():
                         help="Benchmark name, e.g., 'hotpotqa'. The script will read "
                              "data/{benchmark}/{benchmark}_corpus.json and write "
                              "data/{benchmark}/{benchmark}_corpus_triples.json")
-    parser.add_argument("--model", "-m", type=str, default="Qwen/Qwen2.5-32B-Instruct",
-                        help="Model name to use for vLLM (default: Qwen/Qwen2.5-32B-Instruct)")
     args = parser.parse_args()
 
     # Build input and output paths from the benchmark name

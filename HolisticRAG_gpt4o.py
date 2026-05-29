@@ -205,8 +205,7 @@ def cluster_and_filter_questions(
     return list(result_map.values())
 
 
-def llm_filter_questions(seed_query: str, candidate_questions: List[str],
-                         llm_model_name: str) -> List[str]:
+def llm_filter_questions(seed_query: str, candidate_questions: List[str]) -> List[str]:
     """
     Call LLM to filter candidate_questions, returning only those highly relevant to the seed query.
     """
@@ -217,7 +216,7 @@ def llm_filter_questions(seed_query: str, candidate_questions: List[str],
     prompt = FILTER_PROMPT_TEMPLATE.format(seed_query=seed_query, numbered_list=numbered_list)
 
     messages = [{"role": "user", "content": prompt}]
-    llm_output = query_gpt4o(messages, model_name=llm_model_name)
+    llm_output = query_gpt4o(messages)
     if llm_output is None:
         print("  [LLM Filter] Call failed, returning original list")
         return candidate_questions
@@ -264,7 +263,7 @@ headers = {
     "api-key": API_KEY,
 }
 
-def query_gpt4o(messages: List[Dict[str, str]], model_name: str, max_retries: int = 3) -> Optional[str]:
+def query_gpt4o(messages: List[Dict[str, str]], max_retries: int = 3) -> Optional[str]:
     """
     Call the Azure OpenAI API with a list of messages (similar to OpenAI chat format).
     Supports retries. Returns the assistant's reply content or None on failure.
@@ -382,7 +381,6 @@ def process_one_query(original_query: str,
                       chunk_embeddings: np.ndarray,
                       text_to_idx_list: Dict[str, List[int]],
                       get_embedding_func,
-                      llm_model_name: str,
                       max_iter: int = 5,
                       repeat_sim_threshold: float = 0.90,
                       topk_retrieval: int = 30) -> Tuple[Optional[str], Dict[str, Any]]:
@@ -423,7 +421,7 @@ def process_one_query(original_query: str,
 
         # Closure to pass llm_model_name into the filter
         def filter_with_model(seed_q, candidates):
-            return llm_filter_questions(seed_q, candidates, llm_model_name)
+            return llm_filter_questions(seed_q, candidates)
 
         filtered_evidences = cluster_and_filter_questions(
             seed_query=seed_q_text,
@@ -463,7 +461,7 @@ def process_one_query(original_query: str,
 
         sufficiency_prompt = build_sufficiency_prompt(original_query, passages, triples)
         messages = [{"role": "user", "content": sufficiency_prompt}]
-        llm_output = query_gpt4o(messages, model_name=llm_model_name)
+        llm_output = query_gpt4o(messages)
         if llm_output is None:
             print("LLM call failed, terminating")
             return None, {"status": "error", "reason": "llm_failure"}
@@ -487,7 +485,7 @@ def process_one_query(original_query: str,
         print("Information insufficient, need to generate a new query...")
         gen_prompt = build_query_generation_prompt(original_query, passages, triples, previous_queries)
         messages = [{"role": "user", "content": gen_prompt}]
-        llm_output = query_gpt4o(messages, model_name=llm_model_name)
+        llm_output = query_gpt4o(messages)
         if llm_output is None:
             print("LLM call failed during new query generation, terminating")
             return None, {"status": "error", "reason": "llm_failure_gen"}
@@ -588,7 +586,7 @@ def process_one_query(original_query: str,
 
     fallback_prompt = build_fallback_prompt(original_query, top_passages)
     messages = [{"role": "user", "content": fallback_prompt}]
-    llm_output = query_gpt4o(messages, model_name=llm_model_name)
+    llm_output = query_gpt4o(messages)
     if llm_output is None:
         print("Fallback LLM call failed")
         return None, {"status": "error", "reason": "fallback_llm_failure"}
@@ -615,7 +613,6 @@ def process_one_query(original_query: str,
 
 def run_pipeline(benchmark: str,
                  embedding_model_name: str,
-                 llm_model_name: str,
                  device: str = "cuda:1",
                  max_iter: int = 5,
                  repeat_sim_threshold: float = 0.90) -> List[Dict[str, Any]]:
@@ -632,7 +629,6 @@ def run_pipeline(benchmark: str,
 
     print(f"Benchmark: {benchmark}")
     print(f"Embedding model: {embedding_model_name} on {device}")
-    print(f"LLM model: {llm_model_name}")
     print(f"Questions file: {qa_pairs_path}")
     print(f"Seed queries file: {seed_queries_path}")
     print(f"Passage corpus file: {chunk_path}")
@@ -695,7 +691,7 @@ def run_pipeline(benchmark: str,
             answer, run_info = process_one_query(
                 q, qa_df, qa_embeddings, seed_df,
                 chunk_df, chunk_embeddings, text_to_idx_list,
-                get_embedding, llm_model_name,
+                get_embedding,
                 max_iter=max_iter,
                 repeat_sim_threshold=repeat_sim_threshold
             )
@@ -727,8 +723,6 @@ if __name__ == "__main__":
                         help="Benchmark name (e.g., 'hotpotqa'). Data files are expected in data/{benchmark}/")
     parser.add_argument("--embedding-model", "-e", type=str, default="nvidia/NV-Embed-v2",
                         help="Embedding model name (default: nvidia/NV-Embed-v2)")
-    parser.add_argument("--model", "-m", type=str, default="Qwen/Qwen2.5-32B-Instruct",
-                        help="LLM model name for vLLM (default: Qwen/Qwen2.5-32B-Instruct)")
     parser.add_argument("--device", "-d", type=str, default="cuda:0",
                         help="Device for embedding model (default: cuda:0)")
     parser.add_argument("--max-iter", type=int, default=5,
@@ -740,7 +734,6 @@ if __name__ == "__main__":
     run_pipeline(
         benchmark=args.benchmark,
         embedding_model_name=args.embedding_model,
-        llm_model_name=args.model,
         device=args.device,
         max_iter=args.max_iter,
         repeat_sim_threshold=args.repeat_sim_threshold
