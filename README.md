@@ -83,3 +83,24 @@ The final answer is generated based on the aggregated holistic knowledge.
 ```sh
 python evaluation.py --benchmark hotpotqa
 ```
+
+## Code Structure
+
+```text
+HolisticRAG/
+├── assets/                 # Figures
+├── data/                   # data
+├── prompts/                # Prompt templates for fact extraction, QA construction, etc.
+├── fact_extraction.py
+├── fact_extraction_gpt4o.py
+├── questions_construction.py
+├── questions_construction_gpt4o.py
+├── chunk_memory.py
+├── seed_query_memory.py
+├── seed_query_memory_gpt4o.py
+├── HolisticRAG.py          # Main inference script
+├── HolisticRAG_gpt4o.py 
+├── evaluation.py
+├── requirements.txt
+└── README.md
+```
