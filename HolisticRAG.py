@@ -633,7 +633,18 @@ def run_pipeline(benchmark: str,
     embed_model = get_embedding_model(embedding_model_name, device=device)
 
     def get_embedding(text: str) -> np.ndarray:
-        return embed_model.encode_single(text)
+        if isinstance(text, list):
+            result = embed_model.batch_encode(text)
+        else:
+            result = embed_model.batch_encode([text])
+        # Assuming result is a list of arrays or a single array; for single input, return first
+        if isinstance(result, list):
+            return result[0]
+        else:
+            # maybe it returns numpy array of shape (1, dim) or (dim,)
+            if result.ndim == 2 and result.shape[0] == 1:
+                return result[0]
+            return result
 
     # Load data
     qa_df = pd.read_parquet(qa_pairs_path)

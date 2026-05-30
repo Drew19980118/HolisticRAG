@@ -6,6 +6,7 @@ import pandas as pd
 from typing import List, Dict, Any
 from prompts.question_construction import QUESTION_SYSTEM, QUESTION_USER_TEMPLATE
 from embedding_model import get_embedding_model
+import os
 
 # ==================== Helper functions ====================
 def compute_mdhash_id(text: str, prefix: str = "question-") -> str:
