@@ -100,7 +100,7 @@ or
 python seed_query_memory_gpt4o.py --benchmark hotpotqa --embedding-model nvidia/NV-Embed-v2 
 ```
 
-### 2. Inference (Holistic Iterative Retrieval)
+### 2. Inference (Holistic Knowledge Retrieval)
 
 The main inference loop performs holistic knowledge clustering and adaptive retrieval. It repeats until no new complementary facts are found or a maximum iteration count is reached.
 
