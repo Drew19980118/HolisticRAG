@@ -26,7 +26,7 @@ The required benchmarks can be downloaded from [Link](https://1024terabox.com/s/
 
 Our framework supports both open-source and closed-source LLMs:
 
-- **Open-source**: `Qwen/Qwen2.5-32B-Instruct` and `meta-llama/Llama-3.3-70B-Instruct`
+- **Open-source**: `Qwen/Qwen2.5-32B-Instruct` and `Qwen/Qwen2.5-70B-Instruct`
 - **Closed-source**: `GPT-4o` (via Azure OpenAI API)
 
 For open-source models, we use [vLLM](https://github.com/vllm-project/vllm) for efficient inference. Before running any script that uses an open-source model, start the vLLM server:
